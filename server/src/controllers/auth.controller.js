@@ -17,13 +17,8 @@ const registerUser = async (req, res) => {
     // req.body contains what the client sent
     const { name, email, password, phone, ward } = req.body;
 
-    // STEP 2: Validate - check required fields exist
-    if (!name || !email || !password) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide name, email, and password'
-      });
-    }
+    // STEP 2: Validate - Already happening in registerValidator
+
 
     // STEP 3: Check if user already exists
     // We don't want two accounts with same email
@@ -110,13 +105,8 @@ const loginUser = async (req, res) => {
     // STEP 1: Extract credentials
     const { email, password } = req.body;
 
-    // STEP 2: Validate input
-    if (!email || !password) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide email and password'
-      });
-    }
+    // STEP 2: Validate input  Already Done in the Login Validator
+
 
     // STEP 3: Find user by email
     // Remember: password has select:false in schema

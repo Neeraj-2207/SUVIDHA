@@ -13,6 +13,14 @@ const {
   logoutUser
 } = require('../controllers/auth.controller');
 
+// Import Validator function
+const {
+  registerValidator,
+  loginValidator
+} = require('../validators/authValidator');
+
+const validate = require('../middleware/validate');
+
 // Import middleware
 const { protect } = require('../middleware/auth.middleware');
 
@@ -22,10 +30,19 @@ const { protect } = require('../middleware/auth.middleware');
 // ─────────────────────────────────────────
 
 // POST /api/auth/register
-router.post('/register', registerUser);
-
+router.post(
+  '/register',
+  registerValidator,
+  validate,
+  registerUser
+);
 // POST /api/auth/login
-router.post('/login', loginUser);
+router.post(
+  '/login',
+  loginValidator,
+  validate,
+  loginUser
+);
 
 // ─────────────────────────────────────────
 // PRIVATE ROUTES
