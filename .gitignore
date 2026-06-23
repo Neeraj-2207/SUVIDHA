@@ -1,0 +1,18 @@
+ 
+# Node
+node_modules/
+server/.env
+client/.env
+
+# Python
+ai-service/venv/
+ai-service/__pycache__/
+ai-service/.env
+*.pyc
+
+# Build outputs
+client/dist/
+
+# OS files
+.DS_Store
+Thumbs.db
