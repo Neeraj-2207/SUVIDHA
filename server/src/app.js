@@ -46,7 +46,6 @@ app.get('/health', (req, res) => {
 // Catches any route that doesn't exist
 // Must be AFTER all routes
 // ─────────────────────────────────────────
-// CORRECT - works with newer path-to-regexp
 app.use('/{*path}', (req, res) => {
   res.status(404).json({
     success: false,

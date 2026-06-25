@@ -1,4 +1,3 @@
-// axios.js
 // A pre-configured Axios instance for SUVIDHA
 // Every API call in the app uses this — not raw axios
 // Benefits:

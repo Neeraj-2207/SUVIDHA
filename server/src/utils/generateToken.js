@@ -17,7 +17,7 @@ const generateToken = (userId, role) => {
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: '7d'  // Token expires in 7 days
+      expiresIn: '3d'  // Token expires in 7 days
                        // After this, user must log in again
                        // Other options: '1h', '30d', '1y'
     }

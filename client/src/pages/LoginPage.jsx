@@ -67,26 +67,26 @@ const LoginPage = () => {
 
         {/* ── Left Dark Panel ── */}
         <div className="hidden md:flex flex-col justify-between p-10 w-2/5"
-             style={{ background: '#0f1117', minHeight: '480px' }}>
+             style={{ background: '#4160bf', minHeight: '480px' }}>
 
           {/* Top — brand */}
           <div>
             <div className="flex items-center justify-between mb-10">
               <div className="flex items-baseline gap-0.5">
                 <span className="text-xl font-semibold"
-                      style={{ color: '#60a5fa', letterSpacing: '-0.02em' }}>S</span>
+                      style={{ color: '#76b0f6', letterSpacing: '-0.02em' }}>S</span>
                 <span className="text-sm font-light"
-                      style={{ color: '#6b6b80', letterSpacing: '0.12em' }}>UVIDHA</span>
+                      style={{ color: '#2a2a33', letterSpacing: '0.12em' }}>UVIDHA</span>
               </div>
-              <span className="text-xs px-2 py-0.5 rounded"
+              {/* <span className="text-xs px-2 py-0.5 rounded"
                     style={{ background: '#1e1e2e', color: '#4a4a60', letterSpacing: '0.05em' }}>
                 v1.0 · Beta
-              </span>
+              </span> */}
             </div>
 
             {/* Eyebrow */}
             <p className="text-xs mb-3 uppercase tracking-widest"
-               style={{ color: '#60a5fa', opacity: 0.8 }}>
+               style={{ color: '#76b0f6', opacity: 0.8 }}>
               Citizen services portal
             </p>
 
@@ -98,7 +98,7 @@ const LoginPage = () => {
             </h1>
 
             <p className="mt-3 text-xs font-light leading-relaxed"
-               style={{ color: '#4a4a60' }}>
+               style={{ color: '#1c1c23' }}>
               Vijayawada Municipal Corporation<br />
               digital services platform
             </p>
@@ -108,7 +108,7 @@ const LoginPage = () => {
           <div className="flex flex-wrap gap-2">
             {['Bill payments', 'Complaints', 'Water & gas', 'AI assistant'].map(f => (
               <span key={f} className="text-xs px-3 py-1 rounded-full"
-                    style={{ border: '0.5px solid #2a2a3a', color: '#4a4a60' }}>
+                    style={{ border: '0.5px solid #1f1f28', color: '#22222c' }}>
                 {f}
               </span>
             ))}
@@ -122,7 +122,7 @@ const LoginPage = () => {
           {/* Mobile brand */}
           <div className="md:hidden mb-6 flex items-baseline gap-0.5">
             <span className="text-lg font-semibold" style={{ color: '#2563eb' }}>S</span>
-            <span className="text-xs font-light tracking-widest" style={{ color: '#9ca3af' }}>UVIDHA</span>
+            <span className="text-xs font-light tracking-widest" style={{ color: '#33363c', fontWeight:'bolder' }}>UVIDHA</span>
           </div>
 
           {/* Badge */}
@@ -162,7 +162,7 @@ const LoginPage = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="ravi@example.com"
+                placeholder="Email Address"
                 className="w-full px-4 py-2.5 text-sm rounded-lg outline-none transition-all"
                 style={{
                   background: '#f8fafc',

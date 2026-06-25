@@ -229,7 +229,7 @@ const logoutUser = async (req, res) => {
     // JWT logout: the server has NO record of issued tokens.
     // The token lives entirely on the client side.
     // Even if we "logout" here, the token is still mathematically
-    // valid until it expires (7 days in our case).
+    // valid until it expires (3 days in our case).
     //
     // REAL logout with JWT happens on the FRONTEND:
     // → Delete the token from localStorage/memory
