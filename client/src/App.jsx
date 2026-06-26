@@ -8,6 +8,7 @@ import LoginPage      from './pages/LoginPage';
 import RegisterPage   from './pages/RegisterPage';
 import DashboardHome  from './pages/DashboardHome';
 import ProfilePage    from './pages/ProfilePage';
+import BillsPage from './pages/BillsPage'; 
 
 function App() {
   return (
@@ -33,7 +34,7 @@ function App() {
             <Route path="profile" element={<ProfilePage />} />
 
             {/* Placeholder routes — we'll build these in later steps */}
-            <Route path="bills"      element={<ComingSoon name="Bill Management" />} />
+            <Route path="bills" element={<BillsPage />} />
             <Route path="complaints" element={<ComingSoon name="Complaints" />} />
             <Route path="services"   element={<ComingSoon name="Service Requests" />} />
             <Route path="documents"  element={<ComingSoon name="Documents" />} />

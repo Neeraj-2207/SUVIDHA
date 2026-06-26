@@ -155,7 +155,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               </p>
               <p className="text-xs capitalize"
                  style={{ color: '#c7d2fe' }}>
-                {user?.role}{user?.ward ? ` · ${user.ward}` : ''}
+                {user?.role}{user?.ward ? ` Ward : ${user.ward}` : ''}
               </p>
             </div>
           </div>

@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 // IMPORT ROUTES
 // ─────────────────────────────────────────
 const authRoutes = require('./routes/auth.routes');
+const billRoutes = require('./routes/bill.routes');
 
 // ─────────────────────────────────────────
 // REGISTER ROUTES
@@ -26,6 +27,7 @@ const authRoutes = require('./routes/auth.routes');
 // So /register becomes /api/auth/register
 // ─────────────────────────────────────────
 app.use('/api/auth', authRoutes);
+app.use('/api/bills', billRoutes);  
 
 // Health check
 app.get('/health', (req, res) => {
