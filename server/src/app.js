@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // ─────────────────────────────────────────
 const authRoutes = require('./routes/auth.routes');
 const billRoutes = require('./routes/bill.routes');
+const complaintRoutes = require('./routes/complaint.routes');
 
 // ─────────────────────────────────────────
 // REGISTER ROUTES
@@ -28,6 +29,7 @@ const billRoutes = require('./routes/bill.routes');
 // ─────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/api/bills', billRoutes);  
+app.use('/api/complaints', complaintRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
