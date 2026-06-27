@@ -12,17 +12,17 @@ A full-stack civic services platform with AI-powered assistance.
 
 ### Frontend
 ```bash
-cd client && npm run dev
+cd client && npm run dev #till we deploy
 ```
 
 ### Backend
 ```bash
-cd server && npm run dev
+cd server && npm run dev #till we deploy
 ```
 
 ### AI Service
 ```bash
 cd ai-service
-source venv/bin/activate  # Windows: venv\Scripts\activate
-uvicorn app:app --reload --port 8000
+venv\Scripts\activate
+uvicorn app:app --reload --port 8000 #till ew learn ai and deploy
 ```
