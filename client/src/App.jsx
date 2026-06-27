@@ -4,12 +4,15 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 
 // Pages
-import LoginPage      from './pages/LoginPage';
-import RegisterPage   from './pages/RegisterPage';
-import DashboardHome  from './pages/DashboardHome';
-import ProfilePage    from './pages/ProfilePage';
-import BillsPage from './pages/BillsPage'; 
-import ComplaintsPage from './pages/ComplaintsPage'; 
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import DashboardHome from './pages/DashboardHome';
+import ProfilePage from './pages/ProfilePage';
+import BillsPage from './pages/BillsPage';
+import ComplaintsPage from './pages/ComplaintsPage';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminComplaints from './pages/admin/AdminComplaints';
 
 function App() {
   return (
@@ -18,10 +21,11 @@ function App() {
         <Routes>
 
           {/* Public routes */}
-          <Route path="/login"    element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
           {/* Protected + Layout wrapped routes */}
+          {/* Protected + Layout wrapped routes — CITIZEN */}
           <Route
             path="/dashboard"
             element={
@@ -30,16 +34,27 @@ function App() {
               </ProtectedRoute>
             }
           >
-            {/* Nested routes — render inside Layout's <Outlet /> */}
-            <Route index          element={<DashboardHome />} />
+            <Route index element={<DashboardHome />} />
             <Route path="profile" element={<ProfilePage />} />
-
-            {/* Placeholder routes — we'll build these in later steps */}
             <Route path="bills" element={<BillsPage />} />
             <Route path="complaints" element={<ComplaintsPage />} />
-            <Route path="services"   element={<ComingSoon name="Service Requests" />} />
-            <Route path="documents"  element={<ComingSoon name="Documents" />} />
-            <Route path="ai"         element={<ComingSoon name="AI Assistant" />} />
+            <Route path="services" element={<ComingSoon name="Service Requests" />} />
+            <Route path="documents" element={<ComingSoon name="Documents" />} />
+            <Route path="ai" element={<ComingSoon name="AI Assistant" />} />
+          </Route>
+
+          {/* Protected + Layout wrapped routes — ADMIN */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="complaints" element={<AdminComplaints />} />
           </Route>
 
           {/* Default */}

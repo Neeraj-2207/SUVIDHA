@@ -2,21 +2,23 @@
 // The overview page — quick stats and welcome message
 // This replaces the temporary DashboardPage.jsx
 
+
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 // ─────────────────────────────────────────
 // Stat Card — reusable component
 // ─────────────────────────────────────────
 const StatCard = ({ label, value, sub, icon, color }) => (
   <div className="rounded-xl p-5 flex items-start justify-between"
-       style={{ background: '#ffffff', border: '0.5px solid #e2e8f0' }}>
+    style={{ background: '#ffffff', border: '0.5px solid #e2e8f0' }}>
     <div>
       <p className="text-xs uppercase tracking-wider mb-2"
-         style={{ color: '#94a3b8' }}>
+        style={{ color: '#94a3b8' }}>
         {label}
       </p>
       <p className="text-2xl font-medium"
-         style={{ color: '#0f172a', letterSpacing: '-0.02em' }}>
+        style={{ color: '#0f172a', letterSpacing: '-0.02em' }}>
         {value}
       </p>
       {sub && (
@@ -26,7 +28,7 @@ const StatCard = ({ label, value, sub, icon, color }) => (
       )}
     </div>
     <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-         style={{ background: color + '15', color: color }}>
+      style={{ background: color + '15', color: color }}>
       {icon}
     </div>
   </div>
@@ -35,13 +37,15 @@ const StatCard = ({ label, value, sub, icon, color }) => (
 // ─────────────────────────────────────────
 // Quick Action Card
 // ─────────────────────────────────────────
-const ActionCard = ({ label, desc, icon, color }) => (
-  <div className="rounded-xl p-5 cursor-pointer transition-all group"
-       style={{ background: '#ffffff', border: '0.5px solid #e2e8f0' }}
-       onMouseEnter={e => e.currentTarget.style.border = `0.5px solid ${color}40`}
-       onMouseLeave={e => e.currentTarget.style.border = '0.5px solid #e2e8f0'}>
+const ActionCard = ({ label, desc, icon, color,onClick }) => (
+  <div 
+  onClick={onClick}
+  className="rounded-xl p-5 cursor-pointer transition-all group"
+    style={{ background: '#ffffff', border: '0.5px solid #e2e8f0' }}
+    onMouseEnter={e => e.currentTarget.style.border = `0.5px solid ${color}40`}
+    onMouseLeave={e => e.currentTarget.style.border = '0.5px solid #e2e8f0'}>
     <div className="w-9 h-9 rounded-lg flex items-center justify-center mb-4"
-         style={{ background: color + '15', color }}>
+      style={{ background: color + '15', color }}>
       {icon}
     </div>
     <p className="text-sm font-medium mb-1" style={{ color: '#0f172a' }}>
@@ -55,8 +59,9 @@ const ActionCard = ({ label, desc, icon, color }) => (
 
 const DashboardHome = () => {
   const { user } = useAuth();
-    // console.log(user);
-    
+  // console.log(user);
+  const navigate = useNavigate();
+
   // Get hour to show contextual greeting
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
@@ -69,9 +74,9 @@ const DashboardHome = () => {
       color: '#f59e0b',
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-          <polyline points="14 2 14 8 20 8"/>
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
         </svg>
       )
     },
@@ -82,8 +87,8 @@ const DashboardHome = () => {
       color: '#ef4444',
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
         </svg>
       )
     },
@@ -94,9 +99,9 @@ const DashboardHome = () => {
       color: '#2563eb',
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
         </svg>
       )
     },
@@ -107,8 +112,8 @@ const DashboardHome = () => {
       color: '#22c55e',
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
         </svg>
       )
     }
@@ -119,11 +124,12 @@ const DashboardHome = () => {
       label: 'Pay a bill',
       desc: 'View and pay your pending utility bills',
       color: '#f59e0b',
+      path: '/dashboard/bills',
       icon: (
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-          <line x1="1" y1="10" x2="23" y2="10"/>
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+          <line x1="1" y1="10" x2="23" y2="10" />
         </svg>
       )
     },
@@ -131,10 +137,11 @@ const DashboardHome = () => {
       label: 'File a complaint',
       desc: 'Report civic issues in your ward',
       color: '#ef4444',
+      path: '/dashboard/complaints',
       icon: (
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
         </svg>
       )
     },
@@ -142,12 +149,13 @@ const DashboardHome = () => {
       label: 'Ask AI assistant',
       desc: 'Get answers to civic service questions',
       color: '#2563eb',
+      path: '/dashboard/ai',
       icon: (
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+          <line x1="12" y1="17" x2="12.01" y2="17" />
         </svg>
       )
     },
@@ -155,12 +163,13 @@ const DashboardHome = () => {
       label: 'Upload document',
       desc: 'Store important civic documents safely',
       color: '#22c55e',
+      path: '/dashboard/documents',
       icon: (
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="17 8 12 3 7 8"/>
-          <line x1="12" y1="3" x2="12" y2="15"/>
+          stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" y1="3" x2="12" y2="15" />
         </svg>
       )
     }
@@ -172,11 +181,11 @@ const DashboardHome = () => {
       {/* Welcome header */}
       <div className="mb-8">
         <p className="text-xs uppercase tracking-widest mb-1"
-           style={{ color: '#94a3b8' }}>
+          style={{ color: '#94a3b8' }}>
           {greeting}
         </p>
         <h2 className="text-2xl font-medium"
-            style={{ color: '#0f172a', letterSpacing: '-0.02em' }}>
+          style={{ color: '#0f172a', letterSpacing: '-0.02em' }}>
           {user?.name}
           <span style={{ color: '#2563eb' }}>.</span>
         </h2>
@@ -196,7 +205,7 @@ const DashboardHome = () => {
       {/* Divider with label */}
       <div className="flex items-center gap-3 mb-5">
         <p className="text-xs uppercase tracking-widest flex-shrink-0"
-           style={{ color: '#94a3b8' }}>
+          style={{ color: '#94a3b8' }}>
           Quick actions
         </p>
         <div className="flex-1 h-px" style={{ background: '#e2e8f0' }} />
@@ -204,7 +213,13 @@ const DashboardHome = () => {
 
       {/* Quick actions grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {actions.map(a => <ActionCard key={a.label} {...a} />)}
+        {actions.map(a => (
+          <ActionCard
+            key={a.label}
+            {...a}
+            onClick={() => navigate(a.path)}
+          />
+        ))}
       </div>
 
     </div>
