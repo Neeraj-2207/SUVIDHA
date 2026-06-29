@@ -1,20 +1,23 @@
-# app.py - Entry point for the Python FastAPI AI Service
-# FastAPI is like Express.js but for Python
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+from routes.chat_routes import router as chat_router
+from services.rag_service import initialize_rag
 
-# Create the FastAPI application instance
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("🚀 Starting SUVIDHA AI Service...")
+    initialize_rag()
+    yield
+    print("👋 Shutting down AI Service...")
+
 app = FastAPI(
     title="SUVIDHA AI Service",
-    description="AI Microservice for Civic Assistance - RAG, OCR, and Chatbot",
-    version="1.0.0"
+    description="RAG-powered civic assistant for Vijayawada",
+    version="1.0.0",
+    lifespan=lifespan
 )
 
-# ─────────────────────────────────────────
-# CORS MIDDLEWARE
-# Allow our Node.js backend to call this service
-# ─────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5000", "http://localhost:5173"],
@@ -23,16 +26,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ─────────────────────────────────────────
-# HEALTH CHECK ENDPOINT
-# ─────────────────────────────────────────
+app.include_router(chat_router)
+
 @app.get("/health")
 def health_check():
     return {
         "success": True,
         "message": "SUVIDHA AI Service is running!",
-        "services": ["chatbot", "ocr", "rag"]
+        "model":   "gemini-2.0-flash",
+        "vectorstore": "FAISS"
     }
-
-# We will add AI routes here in later modules
-# Example: app.include_router(chatbot_router)

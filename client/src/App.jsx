@@ -13,6 +13,7 @@ import ComplaintsPage from './pages/ComplaintsPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminUsers from './pages/admin/AdminUsers';
 import AdminComplaints from './pages/admin/AdminComplaints';
+import AIChatPage from './pages/AIChatPage'; 
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
             <Route path="complaints" element={<ComplaintsPage />} />
             <Route path="services" element={<ComingSoon name="Service Requests" />} />
             <Route path="documents" element={<ComingSoon name="Documents" />} />
-            <Route path="ai" element={<ComingSoon name="AI Assistant" />} />
+            <Route path="ai" element={<AIChatPage />} />
           </Route>
 
           {/* Protected + Layout wrapped routes — ADMIN */}
