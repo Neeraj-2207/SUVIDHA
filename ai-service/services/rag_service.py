@@ -1,19 +1,15 @@
 import os
-from dotenv import load_dotenv
 
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
-from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
-load_dotenv()
+from prompts.municipal_prompts import MUNICIPAL_RAG_PROMPT
+from config import DATA_PATH, VECTORSTORE_PATH, GEMINI_API_KEY
 
-BASE_DIR         = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_PATH        = os.path.join(BASE_DIR, 'data', 'civic_faq.txt')
-VECTORSTORE_PATH = os.path.join(BASE_DIR, 'vectorstore')
 
 retriever = None
 qa_chain  = None
@@ -21,26 +17,26 @@ qa_chain  = None
 def initialize_rag():
     global retriever, qa_chain
 
-    print("🤖 Initializing RAG pipeline...")
+    print(" Initializing RAG pipeline...")
 
     loader    = TextLoader(DATA_PATH, encoding='utf-8')
     documents = loader.load()
-    print(f"✅ Loaded {len(documents)} document(s)")
+    print(f" Loaded {len(documents)} document(s)")
 
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=500,
         chunk_overlap=50
     )
     chunks = splitter.split_documents(documents)
-    print(f"✅ Split into {len(chunks)} chunks")
+    print(f" Split into {len(chunks)} chunks")
 
     embeddings = GoogleGenerativeAIEmbeddings(
         model="models/gemini-embedding-001",
-        google_api_key=os.getenv("GEMINI_API_KEY")
+        google_api_key=GEMINI_API_KEY
     )
 
     if os.path.exists(VECTORSTORE_PATH):
-        print("✅ Loading existing vectorstore from disk...")
+        print(" Loading existing vectorstore from disk...")
         vectorstore = FAISS.load_local(
             VECTORSTORE_PATH,
             embeddings,
@@ -59,25 +55,11 @@ def initialize_rag():
 
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
-        google_api_key=os.getenv("GEMINI_API_KEY"),
+        google_api_key=GEMINI_API_KEY,
         temperature=0.3
     )
 
-    prompt = PromptTemplate.from_template("""
-You are SUVIDHA AI Assistant for Vijayawada Municipal Corporation.
-Use the following context to answer the question.
-If the answer is not in the context, say "I don't have specific
-information about that. Please contact the municipal office at
-0866-2570000 for assistance."
-Only answer questions related to municipal services.
-Keep answers concise and helpful.
-
-Context:
-{context}
-
-Question: {question}
-
-Answer:""")
+    prompt = MUNICIPAL_RAG_PROMPT
 
     def format_docs(docs):
         return "\n\n".join(doc.page_content for doc in docs)
