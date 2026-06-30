@@ -24,8 +24,8 @@ def initialize_rag():
     print(f" Loaded {len(documents)} document(s)")
 
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50
+        chunk_size=800,
+        chunk_overlap=150
     )
     chunks = splitter.split_documents(documents)
     print(f" Split into {len(chunks)} chunks")
@@ -50,13 +50,17 @@ def initialize_rag():
         print("✅ Vectorstore saved to disk")
 
     retriever = vectorstore.as_retriever(
-        search_kwargs={"k": 3}
+        search_type="similarity_score_threshold",
+        search_kwargs={
+            "score_threshold":0.75,
+            "k":5
+        }
     )
 
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
         google_api_key=GEMINI_API_KEY,
-        temperature=0.3
+        temperature=0.1
     )
 
     prompt = MUNICIPAL_RAG_PROMPT
@@ -94,7 +98,13 @@ def get_answer(question: str) -> dict:
 
         return {
             "answer":  str(answer),
-            "sources": len(source_docs)
+            "sources": [
+                {
+                    "source": doc.metadata.get("source"),
+                    "preview": doc.page_content[:150]
+                }
+                for doc in source_docs
+            ]
         }
 
     except Exception as e:

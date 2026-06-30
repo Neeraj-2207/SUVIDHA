@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from routes.chat_routes import router as chat_router
+from routes.ocr_routes import router as ocr_router 
 from services.rag_service import initialize_rag
 
 @asynccontextmanager
@@ -27,6 +28,7 @@ app.add_middleware(
 )
 
 app.include_router(chat_router)
+app.include_router(ocr_router)
 
 @app.get("/health")
 def health_check():
