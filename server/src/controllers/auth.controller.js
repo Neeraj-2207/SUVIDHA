@@ -253,4 +253,135 @@ const logoutUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, getMe , logoutUser};
+// ─────────────────────────────────────────
+// @desc    Verify Aadhaar after OCR extraction
+// @route   PATCH /api/auth/verify-aadhaar
+// @access  Private
+// ─────────────────────────────────────────
+// ─────────────────────────────────────────
+// Helper — normalize a name for comparison
+// Removes extra spaces, lowercases, strips punctuation
+// ─────────────────────────────────────────
+const normalizeName = (name) => {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z\s]/g, '')   // remove anything that isn't a letter or space
+    .replace(/\s+/g, ' ')        // collapse multiple spaces into one
+    .trim();
+};
+
+// ─────────────────────────────────────────
+// Helper — calculate similarity between two strings
+// Uses Levenshtein distance (edit distance) converted to a 0-1 score
+// ─────────────────────────────────────────
+const calculateSimilarity = (str1, str2) => {
+  const longer  = str1.length > str2.length ? str1 : str2;
+  const shorter = str1.length > str2.length ? str2 : str1;
+
+  if (longer.length === 0) return 1.0;
+
+  const editDistance = levenshteinDistance(longer, shorter);
+  return (longer.length - editDistance) / longer.length;
+};
+
+const levenshteinDistance = (str1, str2) => {
+  const matrix = [];
+
+  for (let i = 0; i <= str2.length; i++) matrix[i] = [i];
+  for (let j = 0; j <= str1.length; j++) matrix[0][j] = j;
+
+  for (let i = 1; i <= str2.length; i++) {
+    for (let j = 1; j <= str1.length; j++) {
+      if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,  // substitution
+          matrix[i][j - 1] + 1,      // insertion
+          matrix[i - 1][j] + 1       // deletion
+        );
+      }
+    }
+  }
+
+  return matrix[str2.length][str1.length];
+};
+
+// ─────────────────────────────────────────
+// @desc    Verify Aadhaar after OCR extraction
+// @route   PATCH /api/auth/verify-aadhaar
+// @access  Private
+// ─────────────────────────────────────────
+const verifyAadhaar = async (req, res) => {
+  try {
+    const { aadhaarNumber, name, dob } = req.body;
+
+    if (!aadhaarNumber || !name) {
+      return res.status(400).json({
+        success: false,
+        message: 'Could not extract sufficient details. Please try a clearer photo.'
+      });
+    }
+
+    const user = await User.findById(req.user._id);
+
+    // ─────────────────────────────────────────
+    // IDENTITY CHECK
+    // Compare extracted name against registered name
+    // ─────────────────────────────────────────
+    const normalizedRegistered = normalizeName(user.name);
+    const normalizedExtracted  = normalizeName(name);
+
+    const similarity = calculateSimilarity(normalizedRegistered, normalizedExtracted);
+
+    const SIMILARITY_THRESHOLD = 0.7;  // 70% similarity required
+
+    if (similarity < SIMILARITY_THRESHOLD) {
+      return res.status(400).json({
+        success: false,
+        message: `The name on this Aadhaar card ("${name}") does not match your registered name ("${user.name}"). You can only verify your own Aadhaar card.`,
+        mismatch: true
+      });
+    }
+
+    // ─────────────────────────────────────────
+    // CHECK: Has this Aadhaar number already been
+    // used to verify a DIFFERENT account?
+    // ─────────────────────────────────────────
+    const existingVerifiedUser = await User.findOne({
+      aadhaarNumber: aadhaarNumber,
+      _id: { $ne: user._id }   // exclude current user
+    });
+
+    if (existingVerifiedUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'This Aadhaar number is already linked to another account.'
+      });
+    }
+
+    // All checks passed — verify the user
+    user.aadhaarVerified = true;
+    user.aadhaarNumber   = aadhaarNumber;  // store for future duplicate checks
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Aadhaar verified successfully!',
+      user: {
+        id: user._id,
+        aadhaarVerified: user.aadhaarVerified
+      }
+    });
+
+  } catch (error) {
+    console.error('verifyAadhaar error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Could not verify Aadhaar. Please try again.'
+    });
+  }
+};
+
+module.exports = { registerUser, loginUser, getMe , logoutUser,verifyAadhaar};

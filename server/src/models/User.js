@@ -85,6 +85,12 @@ const userSchema = new mongoose.Schema(
             default: false
         },
 
+        aadhaarNumber: {
+            type: String,
+            trim: true,
+            default: ''
+        },
+        
         ward: {
             type: String,
             trim: true   // Removes accidental spaces: "  Ward 12  " → "Ward 12"
@@ -114,12 +120,12 @@ const userSchema = new mongoose.Schema(
 // ─────────────────────────────────────────
 // CORRECT - pure async, no next parameter
 userSchema.pre('save', async function () {
-  if (!this.isModified('password')) {
-    return;                          // ← just return, no next()
-  }
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-                                     // ← nothing needed at the end
+    if (!this.isModified('password')) {
+        return;                          // ← just return, no next()
+    }
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    // ← nothing needed at the end
 });
 
 // ─────────────────────────────────────────

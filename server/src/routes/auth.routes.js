@@ -10,7 +10,8 @@ const {
   registerUser,
   loginUser,
   getMe,
-  logoutUser
+  logoutUser,
+  verifyAadhaar
 } = require('../controllers/auth.controller');
 
 // Import Validator function
@@ -54,5 +55,6 @@ router.post(
 // GET /api/auth/me
 router.get('/me', protect, getMe);
 router.post('/logout', protect, logoutUser); 
+router.patch('/verify-aadhaar', protect, verifyAadhaar);
 
 module.exports = router;
