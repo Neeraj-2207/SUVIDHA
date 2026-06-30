@@ -3,11 +3,15 @@
 // Fetches fresh data from GET /api/auth/me
 
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import API from '../api/axios';
 
+import AadhaarUpload from '../components/AadhaarUpload';
+
 const ProfilePage = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -132,7 +136,7 @@ const ProfilePage = () => {
 
                                     {/* Verify now button */}
                                     <button
-                                        onClick={() => alert('Aadhaar verification flow — coming soon!')}
+                                        onClick={() => navigate('/dashboard/verify-aadhaar')}
                                         className="text-xs px-2 py-0.5 rounded-full transition-all"
                                         style={{
                                             background: '#eff6ff',
@@ -148,10 +152,9 @@ const ProfilePage = () => {
                                             e.currentTarget.style.background = '#eff6ff';
                                             e.currentTarget.style.color = '#2563eb';
                                         }}
-                                    >   
+                                    >
                                         Verify now →
                                     </button>
-
                                 </div>
                             )}
                         </div>

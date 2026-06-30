@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
+import FloatingChat from './FloatingChat'; 
 
 const Layout = () => {
   // Controls mobile sidebar open/close state
@@ -34,6 +35,7 @@ const Layout = () => {
         </main>
 
       </div>
+      <FloatingChat />
     </div>
   );
 };
