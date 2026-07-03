@@ -53,7 +53,7 @@ const userSchema = new mongoose.Schema(
         // Role determines what the user can do
         role: {
             type: String,
-            enum: ['citizen', 'admin'],    // Only these two values allowed
+            enum: ['citizen', 'admin','superadmin'],    // Only these two values allowed
             default: 'citizen'             // New registrations are citizens by default
         },
 

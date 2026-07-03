@@ -15,6 +15,10 @@ import AdminUsers from './pages/admin/AdminUsers';
 import AdminComplaints from './pages/admin/AdminComplaints';
 import AIChatPage from './pages/AIChatPage'; 
 import VerifyAadhaarPage from './pages/VerifyAadhaarPage'; 
+import ServiceRequestsPage from './pages/ServiceRequestsPage';
+import AdminServices from './pages/admin/AdminServices';
+import AdminManageAdmins from './pages/admin/AdminManageAdmins'; 
+
 
 function App() {
   return (
@@ -40,7 +44,7 @@ function App() {
             <Route path="profile" element={<ProfilePage />} />
             <Route path="bills" element={<BillsPage />} />
             <Route path="complaints" element={<ComplaintsPage />} />
-            <Route path="services" element={<ComingSoon name="Service Requests" />} />
+            <Route path="services" element={<ServiceRequestsPage />} />
             <Route path="documents" element={<ComingSoon name="Documents" />} />
             <Route path="ai" element={<AIChatPage />} />
             <Route path="verify-aadhaar" element={<VerifyAadhaarPage />} />
@@ -58,6 +62,9 @@ function App() {
             <Route index element={<AdminDashboard />} />
             <Route path="users" element={<AdminUsers />} />
             <Route path="complaints" element={<AdminComplaints />} />
+            <Route path="services" element={<AdminServices />} />
+            <Route path="manage-admins" element={<AdminManageAdmins />} />
+            <Route path="services"      element={<ComingSoon name="Service Requests Admin" />} />
           </Route>
 
           {/* Default */}

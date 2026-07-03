@@ -5,16 +5,13 @@ import io
 import json
 
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.prompts import PromptTemplate
+
 from langchain_core.output_parsers import JsonOutputParser
 from pydantic import BaseModel, Field
 
 from config import GEMINI_API_KEY
 from prompts.aadhar_prompts import get_aadhaar_prompt
-# ─────────────────────────────────────────
-# WINDOWS ONLY — point pytesseract to the engine
-# Skip this line on Mac/Linux
-# ─────────────────────────────────────────
+
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
@@ -57,7 +54,7 @@ def structure_with_gemini(raw_text: str) -> dict:
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash",
         google_api_key=GEMINI_API_KEY,
-        temperature=0   # 0 = most factual, no creativity for data extraction
+        temperature=0
     )
 
     chain = prompt | llm | parser
@@ -71,13 +68,11 @@ def process_aadhaar_image(image_bytes: bytes) -> dict:
     """
     Main function — combines OCR + structuring
     """
-    # Step 1: Extract raw text
     raw_text = extract_text_from_image(image_bytes)
 
     if not raw_text or len(raw_text.strip()) < 10:
         raise Exception("Could not read text from image. Please upload a clearer photo.")
 
-    # Step 2: Structure with Gemini
     structured_data = structure_with_gemini(raw_text)
 
     return {

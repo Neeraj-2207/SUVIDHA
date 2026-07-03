@@ -23,7 +23,8 @@ const billRoutes = require('./routes/bill.routes');
 const complaintRoutes = require('./routes/complaint.routes');
 const adminRoutes     = require('./routes/admin.routes');   
 const aiRoutes = require('./routes/ai.routes'); 
-const ocrRoutes = require('./routes/ocr.routes')
+const ocrRoutes = require('./routes/ocr.routes');
+const serviceRoutes = require('./routes/service.routes');
 
 // ─────────────────────────────────────────
 // REGISTER ROUTES
@@ -36,6 +37,7 @@ app.use('/api/complaints', complaintRoutes);
 app.use('/api/admin',      adminRoutes);  
 app.use('/api/ai', aiRoutes); 
 app.use('/api/ocr',ocrRoutes);
+app.use('/api/services', serviceRoutes);  
 
 // Health check
 app.get('/health', (req, res) => {

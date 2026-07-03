@@ -77,7 +77,8 @@ export const AuthProvider = ({ children }) => {
     login,       // Call this to log in
     logout,      // Call this to log out
     isLoggedIn: !!user,          // Boolean: is user logged in?
-    isAdmin: user?.role === 'admin'  // Boolean: is user an admin?
+    isAdmin: user?.role === 'admin' || user?.role==='superadmin',  // Boolean: is user an admin?
+    isSuperAdmin: user?.role === 'superadmin'  // Boolean: is user a superadmin?
   };
 
   // Don't render children until we know auth status

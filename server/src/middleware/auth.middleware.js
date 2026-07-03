@@ -111,4 +111,14 @@ const authorize = (...roles) => {
   };
 };
 
-module.exports = { protect, authorize };
+const isSuperAdmin = (req, res, next) => {
+  if (req.user.role !== 'superadmin') {
+    return res.status(403).json({
+      success: false,
+      message: 'Only the Super Admin can perform this action.'
+    });
+  }
+  next();
+};
+
+module.exports = { protect, authorize, isSuperAdmin };

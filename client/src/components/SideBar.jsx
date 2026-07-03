@@ -123,6 +123,33 @@ const adminNavItems = [
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
       </svg>
     )
+  },
+  {
+    label: 'Service Requests',
+    path: '/admin/services',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="1.5"
+        strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
+      </svg>
+    )
+  }
+];
+
+// Superadmin-only items — separate array
+const superAdminNavItems = [
+  {
+    label: 'Manage Admins',
+    path: '/admin/manage-admins',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="1.5"
+        strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+    )
   }
 ];
 
@@ -130,7 +157,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  if(!user) return null;
+  if (!user) return null;
 
   const handleLogout = () => {
     logout();
@@ -229,10 +256,9 @@ const Sidebar = ({ isOpen, onClose }) => {
             </NavLink>
           ))}
 
-          {/* ── Admin section — only visible to admins ── */}
-          {user?.role === 'admin' && (
+          {/* Admin section */}
+          {(user?.role === 'admin' || user?.role === 'superadmin') && (
             <>
-              {/* Divider + label */}
               <div className="mt-4 mb-3 px-3 flex items-center gap-2">
                 <div className="flex-1 h-px" style={{ background: '#3550a8' }} />
                 <p className="text-xs uppercase tracking-widest flex-shrink-0"
@@ -241,20 +267,42 @@ const Sidebar = ({ isOpen, onClose }) => {
                 </p>
                 <div className="flex-1 h-px" style={{ background: '#3550a8' }} />
               </div>
-
               {adminNavItems.map((item) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  end={item.exact}
+                <NavLink key={item.path} to={item.path} end={item.exact}
                   onClick={onClose}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-lg mb-0.5 text-sm transition-all"
                   style={({ isActive }) => ({
                     background: isActive ? '#3550a8' : 'transparent',
                     color: isActive ? '#ffffff' : '#c7d2fe',
                     fontWeight: isActive ? '500' : '400'
-                  })}
-                >
+                  })}>
+                  {item.icon}
+                  {item.label}
+                </NavLink>
+              ))}
+            </>
+          )}
+
+          {/* Superadmin only section */}
+          {user?.role === 'superadmin' && (
+            <>
+              <div className="mt-3 mb-3 px-3 flex items-center gap-2">
+                <div className="flex-1 h-px" style={{ background: '#3550a8' }} />
+                <p className="text-xs uppercase tracking-widest flex-shrink-0"
+                  style={{ color: '#f59e0b' }}>
+                  Super Admin
+                </p>
+                <div className="flex-1 h-px" style={{ background: '#3550a8' }} />
+              </div>
+              {superAdminNavItems.map((item) => (
+                <NavLink key={item.path} to={item.path} end={item.exact}
+                  onClick={onClose}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg mb-0.5 text-sm transition-all"
+                  style={({ isActive }) => ({
+                    background: isActive ? '#3550a8' : 'transparent',
+                    color: isActive ? '#f59e0b' : '#fcd34d',
+                    fontWeight: isActive ? '500' : '400'
+                  })}>
                   {item.icon}
                   {item.label}
                 </NavLink>

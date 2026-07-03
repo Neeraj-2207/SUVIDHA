@@ -9,13 +9,13 @@ import { useAuth } from '../../context/AuthContext';
 // Stat card component
 const StatCard = ({ label, value, sub, color, prefix }) => (
   <div className="rounded-xl p-5"
-       style={{ background: '#ffffff', border: '0.5px solid #e2e8f0' }}>
+    style={{ background: '#ffffff', border: '0.5px solid #e2e8f0' }}>
     <p className="text-xs uppercase tracking-wider mb-2"
-       style={{ color: '#94a3b8' }}>
+      style={{ color: '#94a3b8' }}>
       {label}
     </p>
     <p className="text-2xl font-medium"
-       style={{ color: color || '#0f172a', letterSpacing: '-0.02em' }}>
+      style={{ color: color || '#0f172a', letterSpacing: '-0.02em' }}>
       {prefix}{typeof value === 'number' ? value.toLocaleString('en-IN') : value}
     </p>
     {sub && (
@@ -25,9 +25,9 @@ const StatCard = ({ label, value, sub, color, prefix }) => (
 );
 
 const AdminDashboard = () => {
-  const { user }            = useAuth();
-  const navigate            = useNavigate();
-  const [stats, setStats]   = useState(null);
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [stats, setStats] = useState(null);
   const [recent, setRecent] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -63,10 +63,10 @@ const AdminDashboard = () => {
   }
 
   const statusColors = {
-    pending:     '#d97706',
+    pending: '#d97706',
     in_progress: '#2563eb',
-    resolved:    '#16a34a',
-    closed:      '#64748b'
+    resolved: '#16a34a',
+    closed: '#64748b'
   };
 
   return (
@@ -76,17 +76,19 @@ const AdminDashboard = () => {
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-1">
           <span className="text-xs px-2 py-0.5 rounded-full"
-                style={{ background: '#fef3c7', color: '#d97706',
-                         border: '0.5px solid #fde68a' }}>
+            style={{
+              background: '#fef3c7', color: '#d97706',
+              border: '0.5px solid #fde68a'
+            }}>
             Admin
           </span>
           <p className="text-xs uppercase tracking-widest"
-             style={{ color: '#94a3b8' }}>
+            style={{ color: '#94a3b8' }}>
             Control panel
           </p>
         </div>
         <h2 className="text-2xl font-medium"
-            style={{ color: '#0f172a', letterSpacing: '-0.02em' }}>
+          style={{ color: '#0f172a', letterSpacing: '-0.02em' }}>
           Platform Overview
           <span style={{ color: '#4160bf' }}>.</span>
         </h2>
@@ -97,7 +99,7 @@ const AdminDashboard = () => {
 
       {/* User + Bill stats */}
       <p className="text-xs uppercase tracking-widest mb-3"
-         style={{ color: '#94a3b8' }}>
+        style={{ color: '#94a3b8' }}>
         Platform stats
       </p>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -127,7 +129,7 @@ const AdminDashboard = () => {
 
       {/* Complaint stats */}
       <p className="text-xs uppercase tracking-widest mb-3"
-         style={{ color: '#94a3b8' }}>
+        style={{ color: '#94a3b8' }}>
         Complaint stats
       </p>
       <div className="grid grid-cols-3 gap-4 mb-8">
@@ -152,7 +154,7 @@ const AdminDashboard = () => {
       {/* Recent complaints */}
       <div className="flex items-center gap-3 mb-4">
         <p className="text-xs uppercase tracking-widest flex-shrink-0"
-           style={{ color: '#94a3b8' }}>
+          style={{ color: '#94a3b8' }}>
           Recent complaints
         </p>
         <div className="flex-1 h-px" style={{ background: '#e2e8f0' }} />
@@ -163,8 +165,14 @@ const AdminDashboard = () => {
         </button>
       </div>
 
+      <button
+        onClick={() => navigate('/admin/services')}
+        className="text-xs" style={{ color: '#4160bf' }}>
+        View service requests →
+      </button>
+
       <div className="rounded-xl overflow-hidden"
-           style={{ background: '#ffffff', border: '0.5px solid #e2e8f0' }}>
+        style={{ background: '#ffffff', border: '0.5px solid #e2e8f0' }}>
         {recent.length === 0 ? (
           <div className="py-12 text-center">
             <p className="text-sm" style={{ color: '#94a3b8' }}>
@@ -174,14 +182,14 @@ const AdminDashboard = () => {
         ) : (
           recent.map((c, i) => (
             <div key={c._id}
-                 className="px-6 py-4 flex items-center justify-between"
-                 style={{
-                   borderBottom: i < recent.length - 1
-                     ? '0.5px solid #f8fafc' : 'none'
-                 }}>
+              className="px-6 py-4 flex items-center justify-between"
+              style={{
+                borderBottom: i < recent.length - 1
+                  ? '0.5px solid #f8fafc' : 'none'
+              }}>
               <div>
                 <p className="text-sm font-medium"
-                   style={{ color: '#0f172a' }}>
+                  style={{ color: '#0f172a' }}>
                   {c.title}
                 </p>
                 <p className="text-xs mt-0.5" style={{ color: '#94a3b8' }}>
@@ -192,11 +200,11 @@ const AdminDashboard = () => {
                 </p>
               </div>
               <span className="text-xs px-2 py-0.5 rounded-full capitalize"
-                    style={{
-                      background: statusColors[c.status] + '15',
-                      color:      statusColors[c.status],
-                      border:     `0.5px solid ${statusColors[c.status]}40`
-                    }}>
+                style={{
+                  background: statusColors[c.status] + '15',
+                  color: statusColors[c.status],
+                  border: `0.5px solid ${statusColors[c.status]}40`
+                }}>
                 {c.status.replace('_', ' ')}
               </span>
             </div>

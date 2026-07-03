@@ -52,7 +52,7 @@ def initialize_rag():
     retriever = vectorstore.as_retriever(
         search_type="similarity_score_threshold",
         search_kwargs={
-            "score_threshold":0.75,
+            "score_threshold":0.5,
             "k":5
         }
     )

@@ -1,7 +1,3 @@
-// admin.routes.js
-// ALL routes here require: logged in + admin role
-// protect + authorize('admin') applied to every route
-
 const express = require('express');
 const router  = express.Router();
 
@@ -11,28 +7,41 @@ const {
   toggleUserStatus,
   getAllComplaints,
   updateComplaintStatus,
-  createBillForUser
+  createBillForUser,
+  createAdmin,
+  getAllAdmins,
+  toggleAdminStatus
 } = require('../controllers/admin.controller');
 
-const { protect, authorize } = require('../middleware/auth.middleware');
+const {
+  getAllServiceRequests,
+  updateServiceRequestStatus
+} = require('../controllers/service.controller');
 
-// Apply both middlewares to ALL admin routes at once
-// Every route below this line requires admin role
+const {
+  protect,
+  authorize,
+  isSuperAdmin
+} = require('../middleware/auth.middleware');
+
+// All routes require login
 router.use(protect);
-router.use(authorize('admin'));
 
-// Stats
-router.get('/stats', getStats);
+// ─── ADMIN + SUPERADMIN ROUTES ───────────
+router.use(authorize('admin', 'superadmin'));
 
-// User management
-router.get('/users',                 getAllUsers);
-router.patch('/users/:id/toggle',    toggleUserStatus);
+router.get('/stats',                          getStats);
+router.get('/users',                          getAllUsers);
+router.patch('/users/:id/toggle',             toggleUserStatus);
+router.get('/complaints',                     getAllComplaints);
+router.patch('/complaints/:id/status',        updateComplaintStatus);
+router.post('/bills/create',                  createBillForUser);
+router.get('/services',                       getAllServiceRequests);
+router.patch('/services/:id/status',          updateServiceRequestStatus);
 
-// Complaint management
-router.get('/complaints',            getAllComplaints);
-router.patch('/complaints/:id/status', updateComplaintStatus);
-
-// Bill management
-router.post('/bills/create',         createBillForUser);
+// ─── SUPERADMIN ONLY ROUTES ──────────────
+router.get('/admins',              isSuperAdmin, getAllAdmins);
+router.post('/create-admin',       isSuperAdmin, createAdmin);
+router.patch('/admins/:id/toggle', isSuperAdmin, toggleAdminStatus);
 
 module.exports = router;

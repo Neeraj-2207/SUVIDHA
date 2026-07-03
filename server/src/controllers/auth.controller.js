@@ -13,17 +13,16 @@ const generateToken = require('../utils/generateToken');
 
 const registerUser = async (req, res) => {
   try {
-    // STEP 1: Extract data from request body
-    // req.body contains what the client sent
     const { name, email, password, phone, ward } = req.body;
 
-    // STEP 2: Validate - Already happening in registerValidator
+    if (!name || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide name, email and password'
+      });
+    }
 
-
-    // STEP 3: Check if user already exists
-    // We don't want two accounts with same email
     const existingUser = await User.findOne({ email });
-
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -31,61 +30,45 @@ const registerUser = async (req, res) => {
       });
     }
 
-    // STEP 4: Create the user
-    // Note: we pass plain password here
-    // The pre-save hook in User.js will hash it automatically
     const user = await User.create({
       name,
       email,
-      password,      // Will be hashed by pre-save hook
+      password,
       phone,
       ward,
-      role: 'citizen' // Always citizen on self-registration
-                      // Admins are created manually in DB
+      role: 'citizen'  // ← ALWAYS citizen, no exceptions
     });
 
-    // STEP 5: Generate JWT token
     const token = generateToken(user._id, user.role);
-
-    // STEP 6: Update lastLogin
     user.lastLogin = new Date();
     await user.save();
 
-    // STEP 7: Send response
-    // We never send the password back - even hashed
     res.status(201).json({
       success: true,
       message: 'Account created successfully! Welcome to SUVIDHA.',
       token,
       user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        phone: user.phone,
-        ward: user.ward,
+        id:              user._id,
+        name:            user.name,
+        email:           user.email,
+        role:            user.role,
+        phone:           user.phone,
+        ward:            user.ward,
         aadhaarVerified: user.aadhaarVerified
       }
     });
 
   } catch (error) {
-    // Handle Mongoose validation errors specifically
     if (error.name === 'ValidationError') {
       const messages = Object.values(error.errors).map(e => e.message);
-      return res.status(400).json({
-        success: false,
-        message: messages.join(', ')
-      });
+      return res.status(400).json({ success: false, message: messages.join(', ') });
     }
-
-    // Handle duplicate key error (race condition on email)
     if (error.code === 11000) {
       return res.status(400).json({
         success: false,
         message: 'An account with this email already exists'
       });
     }
-
     console.error('Register error:', error);
     res.status(500).json({
       success: false,
