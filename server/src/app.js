@@ -25,6 +25,7 @@ const adminRoutes     = require('./routes/admin.routes');
 const aiRoutes = require('./routes/ai.routes'); 
 const ocrRoutes = require('./routes/ocr.routes');
 const serviceRoutes = require('./routes/service.routes');
+const documentRoutes = require('./routes/document.routes');
 
 // ─────────────────────────────────────────
 // REGISTER ROUTES
@@ -38,6 +39,7 @@ app.use('/api/admin',      adminRoutes);
 app.use('/api/ai', aiRoutes); 
 app.use('/api/ocr',ocrRoutes);
 app.use('/api/services', serviceRoutes);  
+app.use('/api/documents', documentRoutes);
 
 // Health check
 app.get('/health', (req, res) => {

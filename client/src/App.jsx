@@ -18,6 +18,7 @@ import VerifyAadhaarPage from './pages/VerifyAadhaarPage';
 import ServiceRequestsPage from './pages/ServiceRequestsPage';
 import AdminServices from './pages/admin/AdminServices';
 import AdminManageAdmins from './pages/admin/AdminManageAdmins'; 
+import DocumentsPage from './pages/DocumentsPage';   
 
 
 function App() {
@@ -45,7 +46,7 @@ function App() {
             <Route path="bills" element={<BillsPage />} />
             <Route path="complaints" element={<ComplaintsPage />} />
             <Route path="services" element={<ServiceRequestsPage />} />
-            <Route path="documents" element={<ComingSoon name="Documents" />} />
+            <Route path="documents" element={<DocumentsPage />} />
             <Route path="ai" element={<AIChatPage />} />
             <Route path="verify-aadhaar" element={<VerifyAadhaarPage />} />
           </Route>
