@@ -9,9 +9,7 @@ import axios from 'axios';
 
 // Create a custom axios instance
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api',
-  // Every request goes to http://localhost:5000/api/...
-  // So axios.post('/auth/login') calls http://localhost:5000/api/auth/login
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 });
 
 // ─────────────────────────────────────────

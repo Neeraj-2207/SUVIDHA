@@ -367,4 +367,76 @@ const verifyAadhaar = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, getMe , logoutUser,verifyAadhaar};
+
+// ─────────────────────────────────────────
+// @desc    Change password
+// @route   PATCH /api/auth/change-password
+// @access  Private
+// ─────────────────────────────────────────
+const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    // Validate all fields present
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please fill in all fields'
+      });
+    }
+
+    // New passwords must match
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'New passwords do not match'
+      });
+    }
+
+    // Minimum length
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'New password must be at least 6 characters'
+      });
+    }
+
+    // Cannot be same as current
+    if (currentPassword === newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'New password must be different from current password'
+      });
+    }
+
+    // Fetch user WITH password (select:false by default)
+    const user = await User.findById(req.user._id).select('+password');
+
+    // Verify current password
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: 'Current password is incorrect'
+      });
+    }
+
+    // Set new password — pre-save hook hashes it automatically
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Password changed successfully!'
+    });
+
+  } catch (error) {
+    console.error('changePassword error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Could not change password. Please try again.'
+    });
+  }
+};
+
+module.exports = { registerUser, loginUser, getMe , logoutUser,verifyAadhaar,changePassword};

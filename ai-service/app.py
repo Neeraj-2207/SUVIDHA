@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
@@ -18,6 +19,11 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
+
+origins = [
+    os.getenv("CLIENT_URL", "http://localhost:5173"),
+    os.getenv("BACKEND_URL", "http://localhost:5000"),
+]
 
 app.add_middleware(
     CORSMiddleware,

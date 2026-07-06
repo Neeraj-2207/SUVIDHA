@@ -11,7 +11,8 @@ const {
   loginUser,
   getMe,
   logoutUser,
-  verifyAadhaar
+  verifyAadhaar,
+  changePassword
 } = require('../controllers/auth.controller');
 
 // Import Validator function
@@ -56,5 +57,6 @@ router.post(
 router.get('/me', protect, getMe);
 router.post('/logout', protect, logoutUser); 
 router.patch('/verify-aadhaar', protect, verifyAadhaar);
+router.patch('/change-password', protect, changePassword); 
 
 module.exports = router;
