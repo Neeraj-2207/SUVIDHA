@@ -19,7 +19,7 @@ import ServiceRequestsPage from './pages/ServiceRequestsPage';
 import AdminServices from './pages/admin/AdminServices';
 import AdminManageAdmins from './pages/admin/AdminManageAdmins'; 
 import DocumentsPage from './pages/DocumentsPage';  
-import AIChatPage from './pages/AIChatPage'; 
+
 
 
 function App() {
