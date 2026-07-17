@@ -3,9 +3,9 @@
 
 > Official digital portal for Vijayawada Municipal Corporation — enabling citizens to access municipal services, pay utility bills, file complaints, and get AI-powered civic assistance.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-blue)](https://your-app.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-blue)](https://suvidha-plum.vercel.app/login)
 [![Backend](https://img.shields.io/badge/Backend-Render-green)](https://suvidha-backend-mx7h.onrender.com)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+
 
 ---
 
@@ -19,7 +19,7 @@ SUVIDHA is a production-grade civic services platform built with a 3-service mic
 
 | Service | Platform | URL |
 |---------|----------|-----|
-| Frontend | Vercel | https://your-app.vercel.app |
+| Frontend | Vercel |  https://suvidha-plum.vercel.app/login |
 | Backend API | Render | https://suvidha-backend-mx7h.onrender.com |
 | AI Service | Render | https://suvidha-ai-xxxx.onrender.com |
 | Database | MongoDB Atlas | Cloud hosted |
